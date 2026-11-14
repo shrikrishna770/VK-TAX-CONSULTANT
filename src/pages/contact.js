@@ -1,219 +1,145 @@
-import React from "react";
-import Head from "next/head";
-import { motion } from "framer-motion";
-import { 
-  Phone, 
-  Mail, 
-  MapPin, 
-  Send, 
-  Globe, 
-  Users, 
-  Rss 
-} from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import EmailText from "../components/EmailText";
+import { Phone, Mail, MapPin, Clock, MessageCircle, Navigation } from "lucide-react";
 
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import Seo, { businessSchema, breadcrumbSchema } from "../components/Seo";
+import LeadForm from "../components/LeadForm";
+import { SITE, SERVICES, getService, fullAddress, mapsEmbedUrl, mapsDirectionsUrl, whatsappUrl } from "../data/site";
 
 export default function Contact() {
-  const [status, setStatus] = React.useState("");
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setStatus("sending");
-    
-    const formData = {
-      fullName: e.target.fullName.value,
-      email: e.target.email.value,
-      service: e.target.interest.value,
-      message: e.target.message.value,
-    };
-
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      if (res.ok) {
-        setStatus("success");
-        e.target.reset();
-      } else {
-        setStatus("error");
-      }
-    } catch (err) {
-      setStatus("error");
-    }
-  };
+  // Service pages link here with ?service=<slug> to preselect the dropdown.
+  const { query, isReady } = useRouter();
+  const initialService = (isReady && getService(String(query.service || ""))?.title) || "";
 
   return (
     <div className="contact-page">
-      <Head>
-        <title>Contact VK TAX CONSULTANT | Get Expert Tax Advice in Ghaziabad</title>
-        <meta name="description" content="Reach out to VK Tax Consultant for GST, ITR, and Payroll services in Ghaziabad. Schedule your consultation for professional financial guidance." />
-        <meta name="keywords" content="Contact VK Tax Consultant, Tax Consultation Ghaziabad, GST Office Ghaziabad, Hire Accountant Ghaziabad" />
-        
-        <meta property="og:title" content="Contact Us | VK TAX CONSULTANT" />
-        <meta property="og:description" content="Experience high-caliber financial guidance with a personal touch in Ghaziabad." />
-        <meta property="og:image" content="https://vktaxconsultant.com/contact-map.png" />
-      </Head>
+      <Seo
+        title="Contact VK Tax Consultant | Tax Consultant in Ghaziabad"
+        description="Call, WhatsApp or send an enquiry to VK Tax Consultant for GST, ITR, TDS, payroll and accounting services in Ghaziabad. Office open Monday to Saturday."
+        path="/contact"
+        jsonLd={[businessSchema(), breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Contact", path: "/contact" }])]}
+      />
 
-      <Navbar />
-
-      <main className="container">
-        <section className="contact-hero">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <h1>
-              Let's Start a <br />
-              <span className="accent">Conversation.</span>
-            </h1>
-            <p className="contact-subtitle">
-              Experience high-caliber financial guidance with a personal touch. We treat your fiscal health as our own priority, providing clarity in every complex transaction.
-            </p>
-          </motion.div>
+      <div className="container">
+        <section className="contact-hero hero-in">
+          <span className="hero-pill">Contact Us</span>
+          <h1>
+            Let&apos;s Start a <br />
+            <span className="accent">Conversation.</span>
+          </h1>
+          <p className="contact-subtitle">
+            Share your requirement and we will call you back with the next steps and a clear quote. Prefer to talk now?
+            Call or WhatsApp us directly.
+          </p>
         </section>
 
-        <section className="contact-grid">
-          {/* Left Column: Form */}
-          <motion.div 
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="contact-form-card"
-          >
+        <section className="contact-grid" id="consultation">
+          <div className="contact-form-card reveal">
             <div className="form-header">
-              <div className="line"></div>
-              <h2>Send us a Message</h2>
+              <div className="line" aria-hidden="true"></div>
+              <h2>Book a Free Consultation</h2>
             </div>
+            <LeadForm key={initialService} idPrefix="contact" withMessage submitLabel="Send Enquiry" defaultService={initialService} />
+          </div>
 
-            <form className="contact-form" onSubmit={handleSubmit}>
-              <div className="form-row">
-                <div className="input-group">
-                  <label htmlFor="fullName">Full Name</label>
-                  <input type="text" id="fullName" name="fullName" placeholder="John Doe" required />
-                </div>
-                <div className="input-group">
-                  <label htmlFor="email">Email Address</label>
-                  <input type="email" id="email" name="email" placeholder="john@example.com" required />
-                </div>
-              </div>
-
-              <div className="input-group" style={{ marginBottom: "24px" }}>
-                <label htmlFor="interest">Consultation Interest</label>
-                <select id="interest" name="interest" required>
-                  <option value="">Select a service</option>
-                  <option value="GST Services">GST Services</option>
-                  <option value="Income Tax (ITR)">Income Tax (ITR)</option>
-                  <option value="TDS Compliance">TDS Compliance</option>
-                  <option value="Payroll Services">Payroll Services</option>
-                  <option value="Accounting Services">Accounting Services</option>
-                </select>
-              </div>
-
-              <div className="input-group">
-                <label htmlFor="message">Your Message</label>
-                <textarea 
-                  id="message" 
-                  name="message"
-                  rows="6" 
-                  placeholder="Briefly describe your requirements..."
-                  required
-                ></textarea>
-              </div>
-
-              <button type="submit" className="submit-btn" disabled={status === "sending"}>
-                {status === "sending" ? "Sending..." : "Send Message"} <Send size={18} />
-              </button>
-
-              {status === "success" && (
-                <p className="success-msg">Thank you! Your message has been saved.</p>
-              )}
-              {status === "error" && (
-                <p className="error-msg">Something went wrong. Please try again.</p>
-              )}
-            </form>
-          </motion.div>
-
-          {/* Right Column: Info & Map */}
           <div className="contact-sidebar">
-            <motion.div 
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="info-card"
-            >
-              <h2>Direct Communication</h2>
-              <div className="contact-methods">
-                <div className="method-item">
-                  <div className="method-icon">
-                    <Phone size={20} />
-                  </div>
+            <div className="info-card reveal">
+              <h2>Reach Us Directly</h2>
+              <ul className="contact-methods">
+                <li className="method-item">
+                  <div className="method-icon"><Phone size={20} aria-hidden="true" /></div>
                   <div className="method-details">
-                    <div className="label">Inquiries</div>
+                    <div className="label">Phone</div>
                     <div className="value">
-                      <a href="tel:+919873100068">+91 9873100068</a>, <br />
-                      <a href="tel:+919873108188">+91 9873108188</a>
+                      {SITE.phones.map((p) => (
+                        <div key={p.tel}><a href={`tel:${p.tel}`}>{p.display}</a></div>
+                      ))}
                     </div>
                   </div>
-                </div>
-
-                <div className="method-item">
-                  <div className="method-icon">
-                    <Mail size={20} />
-                  </div>
+                </li>
+                <li className="method-item">
+                  <div className="method-icon"><MessageCircle size={20} aria-hidden="true" /></div>
                   <div className="method-details">
-                    <div className="label">Support</div>
+                    <div className="label">WhatsApp</div>
                     <div className="value">
-                      <a href="mailto:vktaxconsultants2024@gmail.com">vktaxconsultants2024@gmail.com</a>
+                      <a href={whatsappUrl()} target="_blank" rel="noopener noreferrer">Chat with us</a>
                     </div>
                   </div>
-                </div>
-
-                <div className="method-item">
-                  <div className="method-icon">
-                    <MapPin size={20} />
-                  </div>
+                </li>
+                <li className="method-item">
+                  <div className="method-icon"><Mail size={20} aria-hidden="true" /></div>
                   <div className="method-details">
-                    <div className="label">Corporate Office</div>
-                    <div className="value">Khora Colony, Ghaziabad, Uttar Pradesh</div>
+                    <div className="label">Email</div>
+                    <div className="value small"><a href={`mailto:${SITE.email}`}><EmailText email={SITE.email} /></a></div>
                   </div>
-                </div>
-              </div>
+                </li>
+                <li className="method-item">
+                  <div className="method-icon"><MapPin size={20} aria-hidden="true" /></div>
+                  <div className="method-details">
+                    <div className="label">Office</div>
+                    <address className="value">{fullAddress()}</address>
+                  </div>
+                </li>
+                <li className="method-item">
+                  <div className="method-icon"><Clock size={20} aria-hidden="true" /></div>
+                  <div className="method-details">
+                    <div className="label">Office Hours</div>
+                    <div className="value">{SITE.hours.label}</div>
+                  </div>
+                </li>
+              </ul>
 
-              <div className="social-presence">
-                <span>Social Presence</span>
-                <div className="social-icons">
-                  <a href="#" className="social-icon"><Globe size={20} /></a>
-                  <a href="#" className="social-icon"><Users size={20} /></a>
-                  <a href="#" className="social-icon"><Rss size={20} /></a>
+              <div className="talk-box">
+                <p className="talk-title">Prefer to talk right away?</p>
+                <p className="talk-text">Call or WhatsApp us during office hours for a quick answer.</p>
+                <div className="talk-actions">
+                  <a href={whatsappUrl()} target="_blank" rel="noopener noreferrer" className="primary-button">
+                    <MessageCircle size={18} aria-hidden="true" /> WhatsApp
+                  </a>
+                  <a href={`tel:${SITE.phones[0].tel}`} className="secondary-button">
+                    <Phone size={18} aria-hidden="true" /> Call Now
+                  </a>
                 </div>
               </div>
-            </motion.div>
-
-            <motion.div 
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="map-card"
-            >
-              <img src="/contact-map.png" alt="Headquarters Map" />
-              <div className="map-overlay">
-                <div className="map-location">
-                  <div className="location-dot"></div>
-                  <span className="location-name">Headquarters</span>
-                </div>
-                <button className="directions-btn">Directions</button>
-              </div>
-            </motion.div>
+            </div>
           </div>
         </section>
-      </main>
 
-      <Footer />
+        <section className="map-card reveal" aria-label="Office location">
+          <a className="map-fallback" href={mapsDirectionsUrl()} target="_blank" rel="noopener noreferrer" tabIndex={-1} aria-hidden="true">
+            <MapPin size={32} />
+            <span>Open in Google Maps</span>
+          </a>
+          <iframe
+            title={`Map showing ${SITE.name} office location`}
+            src={mapsEmbedUrl()}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            allowFullScreen
+          />
+          <div className="map-overlay">
+            <div className="map-location">
+              <div className="location-dot" aria-hidden="true"></div>
+              <span className="location-name">{fullAddress()}</span>
+            </div>
+            <a className="directions-btn" href={mapsDirectionsUrl()} target="_blank" rel="noopener noreferrer">
+              <Navigation size={14} aria-hidden="true" /> Directions
+            </a>
+          </div>
+        </section>
+
+        <section className="contact-services reveal" aria-label="Services we can help with">
+          <p>We can help with</p>
+          <ul>
+            {SERVICES.map((svc) => (
+              <li key={svc.slug}>
+                <Link href={`/services/${svc.slug}`}>{svc.title}</Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </div>
     </div>
   );
 }

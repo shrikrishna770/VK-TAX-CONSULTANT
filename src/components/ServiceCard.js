@@ -1,24 +1,18 @@
-import React from "react";
-import { motion } from "framer-motion";
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import ServiceIcon from "./icons";
 
-const ServiceCard = ({ icon: Icon, title, description, delay }) => (
-  <motion.div 
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true }}
-    transition={{ duration: 0.6, delay }}
-    className="service-card"
-  >
-    <div className="service-icon-box">
-      <Icon className="w-6 h-6" />
-    </div>
-    <h3 className="service-title">{title}</h3>
-    <p className="service-description">{description}</p>
-    <a href="/services" className="service-btn">
-      Learn Service Details <ArrowRight className="w-3 h-3" />
-    </a>
-  </motion.div>
-);
-
-export default ServiceCard;
+export default function ServiceCard({ service, delay = 0 }) {
+  return (
+    <article className="service-card reveal" style={{ "--delay": `${delay}s` }}>
+      <div className="service-icon-box">
+        <ServiceIcon name={service.icon} size={24} />
+      </div>
+      <h3 className="service-title">{service.title}</h3>
+      <p className="service-description">{service.short}</p>
+      <Link href={`/services/${service.slug}`} className="service-btn">
+        Learn more<span className="sr-only"> about {service.title}</span> <ArrowRight size={14} aria-hidden="true" />
+      </Link>
+    </article>
+  );
+}

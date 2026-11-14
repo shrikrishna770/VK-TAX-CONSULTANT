@@ -1,18 +1,19 @@
 .service-card {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--surface);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border);
   padding: 2rem;
-  border-radius: 2rem;
+  border-radius: var(--radius-xl);
   transition: all 0.3s ease;
-  cursor: pointer;
+  position: relative;
+  height: 100%;
 
   &:hover {
-    border-color: rgba(20, 184, 166, 0.3);
+    border-color: rgba(47, 126, 174, 0.3);
 
     .service-icon-box {
-      background: var(--teal-500);
-      color: var(--black);
+      background: var(--accent);
+      color: var(--navy);
     }
     
     .service-btn {
@@ -25,11 +26,11 @@
   width: 3rem;
   height: 3rem;
   border-radius: 0.75rem;
-  background: rgba(20, 184, 166, 0.1);
+  background: rgba(47, 126, 174, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--teal-400);
+  color: var(--primary);
   margin-bottom: 1.5rem;
   transition: all 0.3s ease;
 }
@@ -38,21 +39,22 @@
   font-size: 1.5rem;
   font-weight: 700;
   margin-bottom: 1rem;
-  color: var(--white);
+  color: var(--text);
 }
 
 .service-description {
-  color: var(--slate-400);
+  color: var(--text-muted);
   line-height: 1.6;
   font-size: 0.875rem;
   margin-bottom: 1.5rem;
 }
 
 .service-btn {
+  text-decoration: none;
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: var(--teal-400);
+  color: var(--primary);
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -61,4 +63,11 @@
   border: none;
   cursor: pointer;
   transition: all 0.2s ease;
+}
+
+.service-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
 }
