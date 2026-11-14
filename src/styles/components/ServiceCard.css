@@ -5,7 +5,8 @@
   padding: 2rem;
   border-radius: 2rem;
   transition: all 0.3s ease;
-  cursor: pointer;
+  position: relative;
+  height: 100%;
 
   &:hover {
     border-color: rgba(20, 184, 166, 0.3);
@@ -49,6 +50,7 @@
 }
 
 .service-btn {
+  text-decoration: none;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -61,4 +63,11 @@
   border: none;
   cursor: pointer;
   transition: all 0.2s ease;
+}
+
+.service-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
 }

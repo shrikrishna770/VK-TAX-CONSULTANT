@@ -1,61 +1,97 @@
-import React from "react";
-import { Landmark, ShieldCheck, Globe } from "lucide-react";
+import Link from "next/link";
+import { MapPin, Clock, Phone, Mail } from "lucide-react";
+import { SITE, SERVICES, fullAddress, mapsDirectionsUrl } from "../data/site";
 
-const Footer = () => (
-  <footer className="footer">
-    <div className="container footer-container">
-      <div className="footer-grid">
-        {/* Brand Column */}
-        <div className="footer-brand">
-          <h3 className="footer-title">VK Tax Consultant</h3>
-          <p className="footer-desc">
-            Precision in every ledger. Our firm provides specialized tax strategies for growth-focused entities with uncompromising professional integrity.
+const SOCIAL_LABELS = { facebook: "Facebook", linkedin: "LinkedIn", instagram: "Instagram" };
+
+export default function Footer() {
+  const socials = Object.entries(SITE.social).filter(([, url]) => url);
+  const year = new Date().getFullYear();
+
+  return (
+    <footer className="footer">
+      <div className="container footer-container">
+        <div className="footer-grid">
+          <div className="footer-brand">
+            <p className="footer-title">{SITE.name}</p>
+            <p className="footer-desc">
+              GST, income tax, TDS, payroll and accounting services for individuals and businesses in Ghaziabad and
+              across India.
+            </p>
+            {socials.length > 0 && (
+              <ul className="footer-social">
+                {socials.map(([key, url]) => (
+                  <li key={key}>
+                    <a href={url} target="_blank" rel="noopener noreferrer">
+                      {SOCIAL_LABELS[key] || key}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+
+          <div>
+            <p className="footer-heading">Services</p>
+            <ul className="footer-list">
+              {SERVICES.map((s) => (
+                <li key={s.slug}>
+                  <Link href={`/services/${s.slug}`}>{s.title}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <p className="footer-heading">Company</p>
+            <ul className="footer-list">
+              <li><Link href="/about">About Us</Link></li>
+              <li><Link href="/resources">Tax Calendar &amp; Checklists</Link></li>
+              <li><Link href="/#faq">FAQs</Link></li>
+              <li><Link href="/privacy-policy">Privacy Policy</Link></li>
+              <li><Link href="/terms">Terms of Engagement</Link></li>
+            </ul>
+          </div>
+
+          <div>
+            <p className="footer-heading">Contact</p>
+            <ul className="footer-list contact-list">
+              <li>
+                <Mail size={16} aria-hidden="true" />
+                <a href={`mailto:${SITE.email}`} className="accent-link">{SITE.email}</a>
+              </li>
+              <li>
+                <Phone size={16} aria-hidden="true" />
+                <span>
+                  {SITE.phones.map((p, i) => (
+                    <span key={p.tel}>
+                      {i > 0 && ", "}
+                      <a href={`tel:${p.tel}`}>{p.display}</a>
+                    </span>
+                  ))}
+                </span>
+              </li>
+              <li>
+                <MapPin size={16} aria-hidden="true" />
+                <a href={mapsDirectionsUrl()} target="_blank" rel="noopener noreferrer">{fullAddress()}</a>
+              </li>
+              <li>
+                <Clock size={16} aria-hidden="true" />
+                <span>{SITE.hours.label}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="footer-bottom">
+          <p className="footer-copyright" suppressHydrationWarning>
+            © {year} {SITE.name}. All rights reserved.
+          </p>
+          <p className="footer-copyright">
+            Information on this website is general in nature and not a substitute for professional advice.
           </p>
         </div>
-
-        {/* Resources Column */}
-        <div>
-          <h4 className="footer-heading">RESOURCES</h4>
-          <ul className="footer-list">
-            <li><a href="#">Tax Resources</a></li>
-            <li><a href="#">Support & FAQ</a></li>
-          </ul>
-        </div>
-
-        {/* Compliance Column */}
-        <div>
-          <h4 className="footer-heading">COMPLIANCE</h4>
-          <ul className="footer-list">
-            <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Terms of Engagement</a></li>
-          </ul>
-        </div>
-
-        {/* Contact Column */}
-        <div>
-          <h4 className="footer-heading">CONTACT</h4>
-          <ul className="footer-list contact-list">
-            <li><a href="mailto:vktaxconsultants2024@gmail.com" className="accent-link">vktaxconsultants2024@gmail.com</a></li>
-            <li className="contact-value">
-              <a href="tel:+919873100068" className="footer-tel">+91 9873100068</a>, 
-              <a href="tel:+919873108188" className="footer-tel">+91 9873108188</a>
-            </li>
-          </ul>
-        </div>
       </div>
-
-      <div className="footer-bottom">
-        <div className="footer-copyright">
-          <span>© 2024 VK Tax Consultant. Expert guidance for modern enterprise.</span>
-        </div>
-        <div className="footer-bottom-icons">
-          <Landmark size={18} />
-          <ShieldCheck size={18} />
-          <Globe size={18} />
-        </div>
-      </div>
-    </div>
-  </footer>
-);
-
-export default Footer;
+    </footer>
+  );
+}

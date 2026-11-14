@@ -39,3 +39,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# lead backups (personal data — never commit)
+leads.csv
+*.csv
+
+# allow committing the env template
+!.env.example

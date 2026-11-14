@@ -1,330 +1,213 @@
-import React from "react";
-import Head from "next/head";
-import { motion } from "framer-motion";
-import {
-  FileText,
-  TrendingUp,
-  ShieldCheck,
-  Users,
-  Computer,
-  ArrowRight,
-  Globe,
-  X
-} from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight, ShieldCheck, CalendarCheck, Search, Layers, CheckCircle } from "lucide-react";
 
-import Navbar from "../components/Navbar";
+import Seo, { businessSchema, faqSchema } from "../components/Seo";
 import ServiceCard from "../components/ServiceCard";
-import Footer from "../components/Footer";
+import LeadForm from "../components/LeadForm";
+import Pricing from "../components/Pricing";
+import Testimonials from "../components/Testimonials";
+import FaqSection from "../components/FaqSection";
+import { SITE, SERVICES, FAQS } from "../data/site";
+import heroImg from "../../public/hero.webp";
+
+const PROCESS = [
+  { step: "01", title: "Understand", desc: "A free consultation to understand your income, business and current compliance status.", icon: Search },
+  { step: "02", title: "Plan", desc: "A clear list of documents, timelines and a fixed quote — before any work starts.", icon: Layers },
+  { step: "03", title: "File & Follow Up", desc: "Accurate, on-time filings with acknowledgements shared, and reminders for upcoming due dates.", icon: CheckCircle },
+];
+
+const HIGHLIGHTS = [
+  { value: `Since ${SITE.foundingYear}`, label: "Serving Ghaziabad" },
+  { value: `${SERVICES.length}`, label: "Core compliance services" },
+  { value: "Mon – Sat", label: "Office open 6 days" },
+  { value: "Online", label: "Share documents on WhatsApp / email" },
+];
 
 export default function Home() {
-  const [status, setStatus] = React.useState("");
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setStatus("sending");
-    
-    const formData = {
-      fullName: e.target.fullName.value,
-      email: e.target.email.value,
-      service: e.target.service.value,
-    };
-
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      if (res.ok) {
-        setStatus("success");
-        e.target.reset();
-      } else {
-        setStatus("error");
-      }
-    } catch (err) {
-      setStatus("error");
-    }
-  };
-
   return (
     <div className="home-wrapper">
-      <Head>
-        <title>VK TAX CONSULTANT | Mastering Financial Governance in Ghaziabad</title>
-        <meta name="description" content="Expert GST, Income Tax (ITR), TDS, and Payroll services in Ghaziabad. VK Tax Consultant provides professional accounting and financial governance for modern enterprises." />
-        <meta name="keywords" content="GST Services Ghaziabad, Income Tax Filing, ITR, TDS Compliance, Payroll Services, Accounting Services Ghaziabad, VK Tax Consultant" />
-        
-        {/* Open Graph / Facebook */}
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://vktaxconsultant.com/" />
-        <meta property="og:title" content="VK TAX CONSULTANT | Mastery in Every Ledger" />
-        <meta property="og:description" content="Elevating financial governance with expert tax and accounting solutions in Ghaziabad." />
-        <meta property="og:image" content="https://vktaxconsultant.com/hero.png" />
+      <Seo
+        title="VK Tax Consultant | GST, ITR, TDS & Accounting Services in Ghaziabad"
+        description="GST registration & returns, income tax (ITR) filing, TDS, payroll and accounting services in Ghaziabad. Book a free consultation with VK Tax Consultant."
+        path="/"
+        jsonLd={[businessSchema(), faqSchema(FAQS)]}
+      />
 
-        {/* Twitter */}
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://vktaxconsultant.com/" />
-        <meta property="twitter:title" content="VK TAX CONSULTANT | Mastering Financial Governance" />
-        <meta property="twitter:description" content="Expert GST, Tax, and Payroll services tailored for modern enterprises." />
-        <meta property="twitter:image" content="https://vktaxconsultant.com/hero.png" />
-
-        {/* Structured Data */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "LocalBusiness",
-              "name": "VK TAX CONSULTANT",
-              "image": "https://vktaxconsultant.com/hero.png",
-              "@id": "https://vktaxconsultant.com",
-              "url": "https://vktaxconsultant.com",
-              "telephone": "+919873100068",
-              "address": {
-                "@type": "PostalAddress",
-                "streetAddress": "Khora Colony",
-                "addressLocality": "Ghaziabad",
-                "addressRegion": "UP",
-                "postalCode": "201001",
-                "addressCountry": "IN"
-              },
-              "geo": {
-                "@type": "GeoCoordinates",
-                "latitude": 28.6186,
-                "longitude": 77.3484
-              },
-              "openingHoursSpecification": {
-                "@type": "OpeningHoursSpecification",
-                "dayOfWeek": [
-                  "Monday",
-                  "Tuesday",
-                  "Wednesday",
-                  "Thursday",
-                  "Friday",
-                  "Saturday"
-                ],
-                "opens": "10:00",
-                "closes": "18:00"
-              },
-              "sameAs": [
-                "https://www.facebook.com/vktaxconsultant",
-                "https://www.linkedin.com/company/vktaxconsultant"
-              ]
-            })
-          }}
-        />
-      </Head>
-
-      <Navbar />
-
-      {/* Hero Section */}
+      {/* Hero */}
       <section className="hero">
         <div className="container hero-grid">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            className="hero-content"
-          >
+          <div className="hero-content hero-in">
             <div className="hero-badge">
-              <span className="dot-pulse">
+              <span className="dot-pulse" aria-hidden="true">
                 <span className="ping"></span>
                 <span className="dot"></span>
               </span>
-              Established 2024 • Excellence in Compliance
+              Tax &amp; Compliance Experts in Ghaziabad
             </div>
             <h1 className="hero-title">
               Mastery in <br />
               <span className="serif-italic">Every</span> Ledger.
             </h1>
             <p className="hero-subtitle">
-              Elevating financial governance for India's ambitious enterprises. We blend deep accounting expertise with digital precision to secure your growth.
+              GST, income tax, TDS, payroll and accounting — handled accurately and on time, so you can focus on
+              running your business.
             </p>
             <div className="hero-actions">
-              <button className="primary-btn">
-                Consult an Expert
-                <ArrowRight className="w-5 h-5" />
-              </button>
-              <button className="outline-btn">
-                Our Process
-              </button>
+              <Link href="#consultation" className="primary-btn">
+                Book a Free Consultation
+                <ArrowRight size={20} aria-hidden="true" />
+              </Link>
+              <Link href="#process" className="outline-btn">
+                How We Work
+              </Link>
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.2 }}
-            className="hero-visual"
-          >
+          <div className="hero-visual hero-in hero-in-delay">
             <div className="image-frame">
-              <img src="/hero.png" alt="Digital Finance" />
+              <Image
+                src={heroImg}
+                alt="Tax consultant reviewing financial documents"
+                priority
+                sizes="(min-width: 1024px) 600px, 100vw"
+                placeholder="blur"
+              />
               <div className="overlay" />
             </div>
-
-            {/* Floating Card */}
-            <motion.div
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="floating-card"
-            >
+            <div className="floating-card float-anim">
               <div className="card-content">
                 <div className="icon-circle">
-                  <Globe className="w-6 h-6" />
+                  <CalendarCheck size={24} aria-hidden="true" />
                 </div>
                 <div>
-                  <div className="stat">100%</div>
-                  <div className="text-slate-400 text-[10px] font-bold uppercase tracking-widest mt-1">Accuracy Guaranteed</div>
+                  <div className="stat">On Time</div>
+                  <div className="label">Every due date tracked</div>
                 </div>
               </div>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Services Section */}
-      <section className="services-section">
+      {/* Highlights */}
+      <section className="highlights" aria-label="Highlights">
+        <div className="container highlights-grid">
+          {HIGHLIGHTS.map((h) => (
+            <div key={h.label} className="highlight reveal">
+              <div className="highlight-value">{h.value}</div>
+              <div className="highlight-label">{h.label}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Services */}
+      <section className="services-section" id="services">
         <div className="container">
           <div className="header-row">
             <div className="header-text">
               <h2 className="section-title">
                 Financial Services <br />
-                <span className="dim">Built for Scale.</span>
+                <span className="dim">Built for Growth.</span>
               </h2>
               <p className="section-desc">
-                Tailored compliance solutions that allow you to focus on innovation while we handle the complexities of the Indian tax landscape.
+                Complete tax and compliance support so you can focus on your work while we handle the details.
               </p>
             </div>
-            <div className="controls">
-              <button className="control-btn">
-                <X className="w-5 h-5 rotate-45" />
-              </button>
-              <button className="control-btn">
-                <ArrowRight className="w-5 h-5" />
-              </button>
-            </div>
+            <Link href="/services" className="secondary-button">
+              View all services <ArrowRight size={18} aria-hidden="true" />
+            </Link>
           </div>
 
           <div className="services-grid">
-            <div className="featured">
-              <ServiceCard
-                icon={FileText}
-                title="GST Services"
-                description="Comprehensive GST management including registrations, monthly returns, GSTR-9 annual filing, and audit reconciliation."
-                delay={0.1}
-              />
-            </div>
-            <ServiceCard
-              icon={TrendingUp}
-              title="Income Tax (ITR)"
-              description="Expert Income Tax planning, filing (ITR), and advisory for individuals, businesses, and corporate entities."
-              delay={0.2}
-            />
-            <ServiceCard
-              icon={ShieldCheck}
-              title="TDS Compliance"
-              description="End-to-end TDS management from computation and deposit to quarterly return submissions and certificates."
-              delay={0.3}
-            />
-            <ServiceCard
-              icon={Users}
-              title="Payroll Services"
-              description="Streamlined payroll processing, PF & ESIC compliance, and statutory HR administration for your workforce."
-              delay={0.4}
-            />
-            <ServiceCard
-              icon={Computer}
-              title="Accounting Services"
-              description="Precision bookkeeping and financial reporting using modern cloud-based accounting ecosystems."
-              delay={0.5}
-            />
+            {SERVICES.map((s, i) => (
+              <div key={s.slug} className={i === 0 ? "featured" : undefined}>
+                <ServiceCard service={s} delay={i * 0.08} />
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Form Section */}
-      <section className="form-section" id="contact">
+      {/* Process */}
+      <section className="process-home" id="process">
+        <div className="container">
+          <div className="section-head reveal">
+            <span className="eyebrow">How We Work</span>
+            <h2 className="section-heading">Three simple steps</h2>
+          </div>
+          <div className="process-grid">
+            {PROCESS.map((p, i) => (
+              <div key={p.step} className="process-card reveal" style={{ "--delay": `${i * 0.1}s` }}>
+                <span className="step-num">{p.step}</span>
+                <p.icon size={28} aria-hidden="true" className="process-icon" />
+                <h3>{p.title}</h3>
+                <p>{p.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <Pricing />
+      <Testimonials />
+      <FaqSection faqs={FAQS} />
+
+      {/* Consultation form */}
+      <section className="form-section" id="consultation">
         <div className="container">
           <div className="form-grid">
             <div className="form-text">
               <h2 className="cta-title">
-                Ready to Audit Your <br />
-                <span className="accent">Financial Future?</span>
+                Book Your Free <br />
+                <span className="accent">Consultation.</span>
               </h2>
               <p className="cta-desc">
-                Join the ranks of compliant, data-driven businesses. Our first consultation is always focused on identifying your immediate risk areas.
+                Tell us what you need and we will call you back during office hours to understand your requirement
+                and share a clear quote.
               </p>
 
               <div className="contact-info">
                 <div className="contact-item">
-                  <div className="contact-label">Quick Contact</div>
+                  <div className="contact-label">Call Us</div>
                   <div className="contact-value">
-                    <a href="tel:+919873100068">+91 9873100068</a> <br />
-                    <a href="tel:+919873108188">+91 9873108188</a>
+                    {SITE.phones.map((p) => (
+                      <div key={p.tel}>
+                        <a href={`tel:${p.tel}`}>{p.display}</a>
+                      </div>
+                    ))}
                   </div>
                 </div>
                 <div className="contact-item">
-                  <div className="contact-label">Email Inquiries</div>
-                  <div className="contact-value">
-                    <a href="mailto:vktaxconsultants2024@gmail.com">
-                      vktaxconsultants2024@<br />gmail.com
-                    </a>
+                  <div className="contact-label">Email</div>
+                  <div className="contact-value small">
+                    <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
                   </div>
                 </div>
               </div>
 
               <div className="privacy-badge">
                 <div className="icon-box">
-                  <ShieldCheck className="w-5 h-5" />
+                  <ShieldCheck size={20} aria-hidden="true" />
                 </div>
                 <div>
-                  <div className="badge-title">Data Privacy Promise</div>
-                  <div className="badge-text">AES-256 encryption & strict non-disclosure protocols.</div>
+                  <div className="badge-title">Your information stays confidential</div>
+                  <div className="badge-text">
+                    Used only to respond to your enquiry. <Link href="/privacy-policy">Privacy Policy</Link>
+                  </div>
                 </div>
               </div>
             </div>
 
             <div className="form-card">
               <h3 className="card-title">Request a Callback</h3>
-              <p className="card-subtitle">Expect a response within 2 business hours.</p>
-
-              <form className="main-form" onSubmit={handleSubmit}>
-                <div className="field-group">
-                  <label htmlFor="fullName" className="field-label">Full Name</label>
-                  <input name="fullName" id="fullName" type="text" placeholder="e.g. Rahul Sharma" className="field-input" required />
-                </div>
-                <div className="field-group">
-                  <label htmlFor="email" className="field-label">Business Email</label>
-                  <input name="email" id="email" type="email" placeholder="rahul@enterprise.com" className="field-input" required />
-                </div>
-                <div className="field-group">
-                  <label htmlFor="service" className="field-label">Required Expertise</label>
-                  <select name="service" id="service" className="field-select">
-                    <option>GST Services</option>
-                    <option>Income Tax (ITR)</option>
-                    <option>TDS Compliance</option>
-                    <option>Payroll Services</option>
-                    <option>Accounting Services</option>
-                  </select>
-                </div>
-
-                <button type="submit" className="submit-btn" aria-label="Confirm Inquiry" disabled={status === "sending"}>
-                  {status === "sending" ? "Sending..." : "Confirm Inquiry"}
-                </button>
-
-                {status === "success" && (
-                  <p className="success-msg">Thank you! Your inquiry has been saved.</p>
-                )}
-                {status === "error" && (
-                  <p className="error-msg">Something went wrong. Please try again.</p>
-                )}
-              </form>
+              <p className="card-subtitle">We respond during office hours: {SITE.hours.label}.</p>
+              <LeadForm idPrefix="home" />
             </div>
           </div>
         </div>
       </section>
-
-      <Footer />
     </div>
   );
 }

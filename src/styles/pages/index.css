@@ -120,6 +120,7 @@
         gap: 0.75rem;
         border: none;
         cursor: pointer;
+        text-decoration: none;
         transition: all 0.2s;
 
         @media (min-width: 640px) {
@@ -144,6 +145,8 @@
         color: var(--white);
         background: none;
         cursor: pointer;
+        text-decoration: none;
+        text-align: center;
         transition: all 0.2s;
 
         @media (min-width: 640px) {
@@ -275,28 +278,6 @@
       }
     }
 
-    .controls {
-      display: flex;
-      gap: 1rem;
-
-      .control-btn {
-        width: 3rem;
-        height: 3rem;
-        border-radius: 50%;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--white);
-        background: none;
-        cursor: pointer;
-        transition: all 0.2s;
-
-        &:hover {
-          background: rgba(255, 255, 255, 0.05);
-        }
-      }
-    }
   }
 
   .services-grid {
@@ -370,7 +351,7 @@
         gap: 2.5rem;
 
         @media (min-width: 718px) {
-          grid-template-columns: repeat(2, 1fr);
+          grid-template-columns: auto 1fr;
         }
 
         .contact-item {
@@ -393,6 +374,11 @@
             letter-spacing: -0.01em;
             word-break: normal;
             line-height: 1.4;
+
+            &.small {
+              font-size: 1rem;
+              overflow-wrap: anywhere;
+            }
 
             a {
               color: inherit;
@@ -469,102 +455,6 @@
         margin-bottom: 2.5rem;
       }
 
-      .main-form {
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
-
-        .field-group {
-          display: flex;
-          flex-direction: column;
-          gap: 0.5rem;
-
-          .field-label {
-            font-size: 0.625rem;
-            font-weight: 700;
-            color: var(--slate-400);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-left: 0.25rem;
-          }
-
-          .field-input,
-          .field-select {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 0.75rem;
-            padding: 1rem 1.25rem;
-            color: var(--white);
-            outline: none;
-            transition: all 0.2s;
-
-            &:focus {
-              border-color: rgba(20, 184, 166, 0.5);
-              box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.1);
-            }
-          }
-
-          .field-select {
-            cursor: pointer;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='white'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 1rem center;
-            background-size: 1rem;
-
-            option {
-              background: #0f172a;
-            }
-          }
-        }
-
-        .submit-btn {
-          width: 100%;
-          background: var(--white);
-          color: var(--black);
-          padding: 1.25rem;
-          border-radius: 1rem;
-          font-weight: 900;
-          font-size: 0.875rem;
-          text-transform: uppercase;
-          letter-spacing: 0.1em;
-          border: none;
-          cursor: pointer;
-          transition: all 0.2s;
-          box-shadow: 0 20px 25px -5px rgba(20, 184, 166, 0.1);
-          margin-top: 1rem;
-
-          &:hover {
-            background: var(--teal-400);
-          }
-
-          &:active {
-            transform: scale(0.95);
-          }
-
-          &:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-          }
-        }
-
-        .success-msg {
-          color: var(--teal-400);
-          font-size: 0.875rem;
-          font-weight: 600;
-          text-align: center;
-          margin-top: 1rem;
-        }
-
-        .error-msg {
-          color: #ef4444;
-          font-size: 0.875rem;
-          font-weight: 600;
-          text-align: center;
-          margin-top: 1rem;
-        }
-      }
     }
   }
 }

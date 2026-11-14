@@ -1,88 +1,29 @@
-import React from 'react';
-import Head from 'next/head';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { AlertCircle, ArrowLeft } from 'lucide-react';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
+import Link from "next/link";
+import { AlertCircle, ArrowLeft } from "lucide-react";
+import Seo from "../components/Seo";
 
 export default function Custom404() {
   return (
     <div className="error-page">
-      <Head>
-        <title>Page Not Found | VK TAX CONSULTANT</title>
-      </Head>
-      
-      <Navbar />
-      
-      <main className="container error-container">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="error-content"
-        >
+      <Seo title="Page Not Found | VK Tax Consultant" description="The page you are looking for could not be found." path="/404" noindex />
+      <div className="container error-container">
+        <div className="error-content hero-in">
           <div className="error-icon">
-            <AlertCircle size={64} />
+            <AlertCircle size={64} aria-hidden="true" />
           </div>
-          <h1 className="error-code">404</h1>
-          <h2 className="error-message">Ledger Entry Not Found</h2>
+          <p className="error-code" aria-hidden="true">404</p>
+          <h1 className="error-message">Page Not Found</h1>
           <p className="error-description">
-            The financial path you're looking for doesn't exist or has been moved to a new portfolio.
+            The page you&apos;re looking for doesn&apos;t exist or has been moved.
           </p>
-          <Link href="/" className="primary-button">
-            <ArrowLeft size={18} style={{ marginRight: '8px' }} />
-            Back to Safety
-          </Link>
-        </motion.div>
-      </main>
-
-      <Footer />
-
-      <style jsx>{`
-        .error-page {
-          background: #020617;
-          min-height: 100vh;
-          display: flex;
-          flex-direction: column;
-        }
-        .error-container {
-          flex: 1;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          text-align: center;
-          padding: 100px 20px;
-        }
-        .error-content {
-          max-width: 500px;
-        }
-        .error-icon {
-          color: #2dd4bf;
-          margin-bottom: 24px;
-          display: flex;
-          justify-content: center;
-        }
-        .error-code {
-          font-size: 6rem;
-          font-weight: 900;
-          color: rgba(255, 255, 255, 0.05);
-          line-height: 1;
-          margin-bottom: -20px;
-        }
-        .error-message {
-          font-size: 2rem;
-          font-weight: 700;
-          color: #ffffff;
-          margin-bottom: 16px;
-        }
-        .error-description {
-          color: #94a3b8;
-          font-size: 1.125rem;
-          line-height: 1.6;
-          margin-bottom: 32px;
-        }
-      `}</style>
+          <div className="error-actions">
+            <Link href="/" className="primary-button">
+              <ArrowLeft size={18} aria-hidden="true" /> Back to Home
+            </Link>
+            <Link href="/contact" className="secondary-button">Contact Us</Link>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
