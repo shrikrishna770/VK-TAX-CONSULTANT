@@ -48,8 +48,10 @@ export const fullAddress = () =>
     .filter(Boolean)
     .join(", ");
 
+// Direct /maps/embed URL: the older "?output=embed" form redirects with
+// X-Frame-Options: SAMEORIGIN, which browsers can block inside an iframe.
 export const mapsEmbedUrl = () =>
-  `https://www.google.com/maps?q=${encodeURIComponent(SITE.mapQuery)}&output=embed`;
+  `https://www.google.com/maps/embed?origin=mfe&pb=!1m3!2m1!1s${encodeURIComponent(SITE.mapQuery).replace(/%20/g, "+")}!6i15`;
 
 export const mapsDirectionsUrl = () =>
   `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(SITE.mapQuery)}`;

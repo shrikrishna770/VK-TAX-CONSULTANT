@@ -1,11 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Shield, Clock, TrendingUp, Lock, Search, Layers, CheckCircle } from "lucide-react";
+import { Shield, Clock, TrendingUp, Lock, Search, Layers, CheckCircle, CheckCircle2 } from "lucide-react";
 
 import Seo, { breadcrumbSchema } from "../components/Seo";
 import { SITE, SERVICES } from "../data/site";
-import aboutHero from "../../public/about-hero.webp";
-import aboutMeeting from "../../public/about-meeting.webp";
 
 const PROCESS = [
   {
@@ -49,7 +47,7 @@ export default function About() {
       <section className="about-hero">
         <div className="container about-hero-grid">
           <div className="about-hero-content hero-in">
-            <span className="badge">About Us</span>
+            <span className="hero-pill">About Us</span>
             <h1 className="about-title">
               Building Financial <br />
               <span className="accent serif-italic">Confidence</span>.
@@ -67,9 +65,8 @@ export default function About() {
           </div>
 
           <div className="about-hero-visual hero-in hero-in-delay">
-            <div className="hero-image-wrapper">
-              <Image src={aboutHero} alt="Consultant working on tax planning" priority sizes="(min-width: 1024px) 520px, 100vw" placeholder="blur" />
-              <div className="image-overlay"></div>
+            <div className="brand-panel">
+              <Image src="/logo.webp" alt={`${SITE.name} logo`} width={320} height={288} priority />
             </div>
             <div className="floating-badge float-anim">
               <div className="badge-inner">
@@ -85,8 +82,8 @@ export default function About() {
         <div className="container">
           <div className="strategic-grid">
             <div className="strategic-content reveal">
-              <span className="badge">Our Purpose</span>
-              <h2>Compliance Without the Stress.</h2>
+              <span className="eyebrow">Our Purpose</span>
+              <h2 className="section-heading align-left">Compliance Without the Stress</h2>
               <p>
                 Tax rules change often and missed deadlines are costly. Our job is to take that burden off you —
                 keeping your books in order, filing on time and explaining what each step means for your business.
@@ -103,8 +100,19 @@ export default function About() {
               </div>
             </div>
 
-            <div className="strategic-image reveal">
-              <Image src={aboutMeeting} alt="Team discussing a client's compliance plan" sizes="(min-width: 1024px) 600px, 100vw" placeholder="blur" />
+            <div className="handle-card reveal">
+              <h3>What we take care of</h3>
+              <ul>
+                {SERVICES.map((svc) => (
+                  <li key={svc.slug}>
+                    <CheckCircle2 size={20} aria-hidden="true" />
+                    <div>
+                      <strong>{svc.title}</strong>
+                      <span>{svc.features.slice(0, 2).join(" · ")}</span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>
@@ -112,7 +120,10 @@ export default function About() {
 
       <section className="engineering-section" id="process">
         <div className="container">
-          <h2>How We Work.</h2>
+          <div className="section-head reveal">
+            <span className="eyebrow">Our Process</span>
+            <h2 className="section-heading">How We Work</h2>
+          </div>
           <div className="process-grid">
             {PROCESS.map((item, i) => (
               <div key={item.step} className="process-card reveal" style={{ "--delay": `${i * 0.15}s` }}>
@@ -127,10 +138,10 @@ export default function About() {
 
       <section className="trust-section">
         <div className="container">
-          <div className="section-header">
-            <span className="badge">Why Choose Us</span>
-            <h2>What You Can Expect From Us.</h2>
-            <p className="hero-desc">Clear communication, careful work and deadlines that are never an afterthought.</p>
+          <div className="section-head reveal">
+            <span className="eyebrow">Why Choose Us</span>
+            <h2 className="section-heading">What You Can Expect From Us</h2>
+            <p className="section-sub">Clear communication, careful work and deadlines that are never an afterthought.</p>
           </div>
 
           <div className="trust-grid">
@@ -164,7 +175,7 @@ export default function About() {
       <section className="about-cta">
         <div className="container">
           <div className="cta-box reveal">
-            <h2>Let&apos;s Talk About Your Compliance.</h2>
+            <h2>Let&apos;s Talk About Your Compliance</h2>
             <p>Book a free consultation to review your current position and find out how we can help.</p>
             <div className="cta-actions">
               <Link href="/contact#consultation" className="primary-button">

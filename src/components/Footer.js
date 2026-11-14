@@ -1,4 +1,6 @@
 import Link from "next/link";
+import EmailText from "./EmailText";
+import Image from "next/image";
 import { MapPin, Clock, Phone, Mail } from "lucide-react";
 import { SITE, SERVICES, fullAddress, mapsDirectionsUrl } from "../data/site";
 
@@ -13,7 +15,7 @@ export default function Footer() {
       <div className="container footer-container">
         <div className="footer-grid">
           <div className="footer-brand">
-            <p className="footer-title">{SITE.name}</p>
+            <Image src="/logo.webp" alt={SITE.name} width={133} height={120} className="footer-logo" />
             <p className="footer-desc">
               GST, income tax, TDS, payroll and accounting services for individuals and businesses in Ghaziabad and
               across India.
@@ -58,7 +60,7 @@ export default function Footer() {
             <ul className="footer-list contact-list">
               <li>
                 <Mail size={16} aria-hidden="true" />
-                <a href={`mailto:${SITE.email}`} className="accent-link">{SITE.email}</a>
+                <a href={`mailto:${SITE.email}`} className="accent-link"><EmailText email={SITE.email} /></a>
               </li>
               <li>
                 <Phone size={16} aria-hidden="true" />

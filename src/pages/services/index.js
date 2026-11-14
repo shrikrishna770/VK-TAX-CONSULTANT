@@ -53,26 +53,24 @@ export default function Services() {
                 </Link>
               </article>
             ))}
+            <article className="service-item-card service-cta-card reveal">
+              <h2>Not sure which service you need?</h2>
+              <p>Book a free consultation and we will recommend the right plan for your situation.</p>
+              <div className="service-cta-actions">
+                <Link href="/contact#consultation" className="primary-button">
+                  Book a Consultation
+                </Link>
+                <Link href="/resources#checklists" className="secondary-button">
+                  Document Checklists
+                </Link>
+              </div>
+            </article>
           </div>
         </div>
       </section>
 
       <Pricing />
 
-      <section className="container">
-        <div className="cta-banner reveal">
-          <h2>Not sure which service you need?</h2>
-          <p>Book a free consultation and we will recommend the right plan for your situation.</p>
-          <div className="btn-group">
-            <Link href="/contact#consultation" className="primary-button">
-              Book a Consultation
-            </Link>
-            <Link href="/resources#checklists" className="secondary-button">
-              Document Checklists
-            </Link>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { Menu, X, Phone } from "lucide-react";
 import { SITE } from "../data/site";
@@ -52,10 +53,8 @@ export default function Navbar() {
       </a>
       <nav className="container nav-container" aria-label="Main">
         <Link href="/" className="logo-wrapper" aria-label={`${SITE.name} — home`}>
-          <span className="logo-box" aria-hidden="true">VK</span>
-          <span className="logo-text">
-            VK <span className="accent">TAX</span> CONSULTANT
-          </span>
+          <Image src="/brand-mark.png" alt="" width={44} height={44} priority className="logo-mark" />
+          <Image src="/brand-wordmark.png" alt={SITE.name} width={162} height={40} priority className="logo-wordmark" />
         </Link>
 
         <div id="primary-nav" className={`nav-links ${open ? "open" : ""}`}>

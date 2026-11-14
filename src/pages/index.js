@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ShieldCheck, CalendarCheck, Search, Layers, CheckCircle } from "lucide-react";
+import EmailText from "../components/EmailText";
+import { ArrowRight, ShieldCheck, Search, Layers, CheckCircle } from "lucide-react";
 
 import Seo, { businessSchema, faqSchema } from "../components/Seo";
 import ServiceCard from "../components/ServiceCard";
@@ -8,8 +8,8 @@ import LeadForm from "../components/LeadForm";
 import Pricing from "../components/Pricing";
 import Testimonials from "../components/Testimonials";
 import FaqSection from "../components/FaqSection";
+import ComplianceTracker from "../components/ComplianceTracker";
 import { SITE, SERVICES, FAQS } from "../data/site";
-import heroImg from "../../public/hero.webp";
 
 const PROCESS = [
   { step: "01", title: "Understand", desc: "A free consultation to understand your income, business and current compliance status.", icon: Search },
@@ -65,27 +65,8 @@ export default function Home() {
           </div>
 
           <div className="hero-visual hero-in hero-in-delay">
-            <div className="image-frame">
-              <Image
-                src={heroImg}
-                alt="Tax consultant reviewing financial documents"
-                priority
-                sizes="(min-width: 1024px) 600px, 100vw"
-                placeholder="blur"
-              />
-              <div className="overlay" />
-            </div>
-            <div className="floating-card float-anim">
-              <div className="card-content">
-                <div className="icon-circle">
-                  <CalendarCheck size={24} aria-hidden="true" />
-                </div>
-                <div>
-                  <div className="stat">On Time</div>
-                  <div className="label">Every due date tracked</div>
-                </div>
-              </div>
-            </div>
+            <div className="hero-blob" aria-hidden="true" />
+            <ComplianceTracker />
           </div>
         </div>
       </section>
@@ -182,7 +163,7 @@ export default function Home() {
                 <div className="contact-item">
                   <div className="contact-label">Email</div>
                   <div className="contact-value small">
-                    <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+                    <a href={`mailto:${SITE.email}`}><EmailText email={SITE.email} /></a>
                   </div>
                 </div>
               </div>
